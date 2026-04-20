@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { motion, type Variants } from "framer-motion"
-import { ArrowRight, Sparkles, Star } from "lucide-react"
+import { ArrowRight, ArrowUpRight, Sparkles, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
@@ -61,12 +61,19 @@ export function HeroSection() {
           </motion.p>
 
           <motion.div variants={item} className="flex flex-col sm:flex-row items-center gap-4 pt-2">
-            <Button size="lg" className="gap-2 h-12 px-8 text-base rounded-xl" asChild>
-              <Link to="/components">
-                Browse Components
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button>
+            <Button
+  size="lg"
+  className="group relative overflow-hidden gap-2 h-11 px-6 text-base rounded-xl tracking-tight"
+  asChild
+>
+  <Link to="/components">
+    Browse components
+    <span className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-white/15 flex-shrink-0">
+      <ArrowUpRight className="w-3 h-3" />
+    </span>
+    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
+  </Link>
+</Button>
             <Button variant="outline" size="lg" className="h-12 px-8 text-base rounded-xl" asChild>
               <Link to="/signup">Get Started Free</Link>
             </Button>
