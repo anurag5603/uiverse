@@ -85,18 +85,15 @@ export function GlobalBackground() {
         />
       ))}
 
-      {/* Layer 2 — 40px grid */}
+      {/* Layer 2 — 40px grid with vignette mask */}
       <div
-        className="absolute inset-0 opacity-[0.25] dark:opacity-[0.15]"
+        className="absolute inset-0 opacity-[0.5] dark:opacity-[0.4] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]"
         style={{
           backgroundImage:
             "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(to right, var(--border) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }}
       />
-
-      {/* Layer 3 — radial vignette to fade grid edges */}
-      <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]" />
     </div>
   )
 }

@@ -10,7 +10,10 @@ import {
   BentoGrid,
   FloatingLabelInput,
   AnimatedToggle,
-  LoaderAnimations,
+  SpinnerLoader,
+  BarLoader,
+  DotsLoader,
+  ShimmerSweepButton,
 } from "./index"
 
 const componentMap: Record<string, React.ComponentType> = {
@@ -25,7 +28,10 @@ const componentMap: Record<string, React.ComponentType> = {
   BentoGrid,
   FloatingLabelInput,
   AnimatedToggle,
-  LoaderAnimations,
+  SpinnerLoader,
+  BarLoader,
+  DotsLoader,
+  ShimmerSweepButton,
 }
 
 const codeMap: Record<string, string> = {}

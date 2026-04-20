@@ -34,7 +34,7 @@ export function Navbar() {
           style={{ opacity: bgOpacity }}
         />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-16 relative">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 group">
               <div className="relative">
@@ -47,7 +47,7 @@ export function Navbar() {
             </Link>
 
             {/* Desktop nav — animated active indicator */}
-            <nav className="hidden md:flex items-center gap-1">
+            <nav className="hidden md:flex items-center gap-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}

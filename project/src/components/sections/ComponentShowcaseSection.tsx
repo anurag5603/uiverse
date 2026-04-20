@@ -117,24 +117,12 @@ export function ComponentShowcaseSection() {
                 <h3 className="font-semibold mb-1">Spotlight Card</h3>
                 <p className="text-sm text-muted-foreground">Dynamic cursor spotlight effect</p>
               </div>
-              <Badge className="text-xs gap-1">
-                <Lock className="w-3 h-3" />
-                Pro
-              </Badge>
+              <Badge variant="outline" className="text-xs">Free</Badge>
             </div>
             <div className="flex-1 flex items-center justify-center py-8 select-none">
               <div className="relative w-full max-w-sm h-32 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-border flex items-center justify-center overflow-hidden group cursor-pointer">
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(circle_at_var(--x,50%)_var(--y,50%),hsl(var(--primary)/0.15),transparent_60%)]" />
                 <p className="text-sm font-medium z-10">Hover to see effect</p>
-              </div>
-            </div>
-            <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px] flex items-center justify-center rounded-2xl">
-              <div className="text-center">
-                <Lock className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm font-medium mb-3">Pro Component</p>
-                <Button size="sm" asChild>
-                  <Link to="/signup">Unlock with Pro</Link>
-                </Button>
               </div>
             </div>
           </motion.div>

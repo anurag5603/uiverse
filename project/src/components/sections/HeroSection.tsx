@@ -25,13 +25,12 @@ export function HeroSection() {
         <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-background/80 to-transparent" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col items-center gap-6">
           <motion.div variants={item}>
             <Badge variant="outline" className="gap-2 px-4 py-1.5 text-sm rounded-full border-border">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
               <span className="text-muted-foreground">100+ Premium UI Components</span>
-              <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
             </Badge>
           </motion.div>
 
@@ -62,20 +61,29 @@ export function HeroSection() {
 
           <motion.div variants={item} className="flex flex-col sm:flex-row items-center gap-4 pt-2">
             <Button
-  size="lg"
-  className="group relative overflow-hidden gap-2 h-11 px-6 text-base rounded-xl tracking-tight"
-  asChild
->
-  <Link to="/components">
-    Browse components
-    <span className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-white/15 flex-shrink-0">
-      <ArrowUpRight className="w-3 h-3" />
-    </span>
-    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
-  </Link>
-</Button>
-            <Button variant="outline" size="lg" className="h-12 px-8 text-base rounded-xl" asChild>
-              <Link to="/signup">Get Started Free</Link>
+              size="lg"
+              className="group relative overflow-hidden gap-2 h-11 px-6 text-base rounded-xl tracking-tight dark:bg-white/5 dark:text-white dark:border dark:border-white/10 dark:hover:bg-white/10 transition-colors"
+              asChild
+            >
+              <Link to="/components">
+                Browse components
+                <span className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-white/15 flex-shrink-0">
+                  <ArrowUpRight className="w-3 h-3" />
+                </span>
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
+              </Link>
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="group relative overflow-hidden h-11 px-6 text-base rounded-xl hover:bg-muted hover:border-foreground/30 transition-colors gap-2"
+              asChild
+            >
+              <Link to="/signup">
+                <span className="text-[13px] opacity-70">✦</span>
+                Get started free
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-foreground/10 to-transparent group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
+              </Link>
             </Button>
           </motion.div>
 
@@ -85,13 +93,19 @@ export function HeroSection() {
           >
             <div className="flex items-center gap-2">
               <div className="flex">
-                {["SC", "MR", "PP", "JK", "EV"].map((initials, i) => (
+                {[
+                  { initials: "SC", color: "bg-blue-500 text-white" },
+                  { initials: "MR", color: "bg-emerald-500 text-white" },
+                  { initials: "PP", color: "bg-amber-500 text-white" },
+                  { initials: "JK", color: "bg-rose-500 text-white" },
+                  { initials: "EV", color: "bg-violet-500 text-white" },
+                ].map((user, i) => (
                   <div
-                    key={initials}
-                    className="w-7 h-7 rounded-full bg-muted border-2 border-background flex items-center justify-center text-xs font-semibold"
+                    key={user.initials}
+                    className={`w-7 h-7 rounded-full border-2 border-background flex items-center justify-center text-xs font-semibold ${user.color}`}
                     style={{ marginLeft: i === 0 ? 0 : -8 }}
                   >
-                    {initials[0]}
+                    {user.initials[0]}
                   </div>
                 ))}
               </div>
@@ -100,7 +114,7 @@ export function HeroSection() {
             <div className="flex items-center gap-1.5">
               <div className="flex">
                 {[1, 2, 3, 4, 5].map((s) => (
-                  <Star key={s} className="w-3.5 h-3.5 fill-foreground text-foreground" />
+                  <Star key={s} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                 ))}
               </div>
               <span>5.0 rating</span>

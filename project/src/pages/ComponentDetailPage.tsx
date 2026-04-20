@@ -23,7 +23,10 @@ import {
   bentoGridCode,
   floatingLabelInputCode,
   animatedToggleCode,
-  loaderAnimationsCode,
+  spinnerLoaderCode,
+  barLoaderCode,
+  dotsLoaderCode,
+  shimmerSweepButtonCode,
 } from "@/components/showcase/index"
 
 const codeBySlug: Record<string, string> = {
@@ -38,7 +41,10 @@ const codeBySlug: Record<string, string> = {
   "bento-grid": bentoGridCode,
   "floating-label-input": floatingLabelInputCode,
   "animated-toggle": animatedToggleCode,
-  "loader-animations": loaderAnimationsCode,
+  "spinner-loader": spinnerLoaderCode,
+  "bar-loader": barLoaderCode,
+  "dots-loader": dotsLoaderCode,
+  "shimmer-sweep-button": shimmerSweepButtonCode,
 }
 
 const installationSteps = [
