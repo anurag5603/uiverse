@@ -204,6 +204,20 @@ export const showcaseComponents: ShowcaseComponent[] = [
     downloads: 0,
     likes: 0,
   },
+  {
+    id: "17",
+    slug: "tools-card",
+    name: "Tools Card",
+    description: "A premium dark-banner card showcasing your tech stack with an animated dotted canvas, neon chip hover effects, and a live shipping status pill.",
+    category: "cards",
+    tier: "free",
+    tags: ["card", "canvas", "tools", "stack", "neon", "animated"],
+    previewComponent: "ToolsCardDemo",
+    new: true,
+    featured: true,
+    downloads: 0,
+    likes: 0,
+  },
 ]
 
 export const pricingPlans: PricingPlan[] = [
