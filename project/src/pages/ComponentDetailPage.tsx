@@ -27,6 +27,7 @@ import {
   barLoaderCode,
   dotsLoaderCode,
   shimmerSweepButtonCode,
+  dottedGlowBackgroundCode,
 } from "@/components/showcase/index"
 
 const codeBySlug: Record<string, string> = {
@@ -45,6 +46,7 @@ const codeBySlug: Record<string, string> = {
   "bar-loader": barLoaderCode,
   "dots-loader": dotsLoaderCode,
   "shimmer-sweep-button": shimmerSweepButtonCode,
+  "dotted-glow-background": dottedGlowBackgroundCode,
 }
 
 const installationSteps = [

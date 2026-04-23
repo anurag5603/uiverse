@@ -190,6 +190,20 @@ export const showcaseComponents: ShowcaseComponent[] = [
     downloads: 1204,
     likes: 195,
   },
+  {
+    id: "16",
+    slug: "dotted-glow-background",
+    name: "Dotted Glow Background",
+    description: "A high-performance canvas component with an organic shimmering dot grid, radial vignette, and neon color morphing on hover.",
+    category: "ui-elements",
+    tier: "free",
+    tags: ["background", "canvas", "dots", "glow", "neon", "animated"],
+    previewComponent: "DottedGlowBackgroundDemo",
+    new: true,
+    featured: true,
+    downloads: 0,
+    likes: 0,
+  },
 ]
 
 export const pricingPlans: PricingPlan[] = [
