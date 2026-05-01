@@ -16,6 +16,7 @@ import {
   ShimmerSweepButton,
   DottedGlowBackgroundDemo,
   ToolsCardDemo,
+  DamnGoodCardDemo,
 } from "./index"
 
 const componentMap: Record<string, React.ComponentType> = {
@@ -36,6 +37,7 @@ const componentMap: Record<string, React.ComponentType> = {
   ShimmerSweepButton,
   DottedGlowBackgroundDemo,
   ToolsCardDemo,
+  DamnGoodCardDemo,
 }
 
 const codeMap: Record<string, string> = {}

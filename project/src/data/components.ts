@@ -218,6 +218,20 @@ export const showcaseComponents: ShowcaseComponent[] = [
     downloads: 0,
     likes: 0,
   },
+  {
+    id: "18",
+    slug: "damn-good-card",
+    name: "Damn Good Card",
+    description: "A sleek dark card with a scanning beam animation, exhaust particles, and icon pop effects powered by canvas.",
+    category: "cards",
+    tier: "free",
+    tags: ["card", "canvas", "scan", "beam", "particles", "animated"],
+    previewComponent: "DamnGoodCardDemo",
+    new: true,
+    featured: true,
+    downloads: 0,
+    likes: 0,
+  },
 ]
 
 export const pricingPlans: PricingPlan[] = [

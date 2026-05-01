@@ -29,6 +29,7 @@ import {
   shimmerSweepButtonCode,
   dottedGlowBackgroundCode,
   toolsCardCode,
+  damnGoodCardCode,
 } from "@/components/showcase/index"
 
 const codeBySlug: Record<string, string> = {
@@ -49,6 +50,7 @@ const codeBySlug: Record<string, string> = {
   "shimmer-sweep-button": shimmerSweepButtonCode,
   "dotted-glow-background": dottedGlowBackgroundCode,
   "tools-card": toolsCardCode,
+  "damn-good-card": damnGoodCardCode,
 }
 
 const installationSteps = [
