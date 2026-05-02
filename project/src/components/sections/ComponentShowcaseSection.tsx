@@ -1,7 +1,7 @@
 import { useRef } from "react"
 import { Link } from "react-router-dom"
 import { motion, useInView } from "framer-motion"
-import { ArrowRight, Lock, Sparkles } from "lucide-react"
+import { ArrowRight, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { GradientButton } from "@/components/showcase/GradientButton"

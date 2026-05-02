@@ -1,9 +1,12 @@
 import * as React from "react"
 import { motion } from "framer-motion"
 
-export interface GlowButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface GlowButtonProps {
   children?: React.ReactNode
   size?: "sm" | "default" | "lg"
+  className?: string
+  disabled?: boolean
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 export function GlowButton({
@@ -12,7 +15,6 @@ export function GlowButton({
   size = "default",
   className = "",
   disabled,
-  ...props
 }: GlowButtonProps) {
 
   const sizeClasses = {
@@ -35,7 +37,6 @@ export function GlowButton({
         tap: { scale: 0.97 }
       }}
       className={`relative rounded-xl font-semibold text-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50 disabled:pointer-events-none ${sizeClasses[size]} ${className}`}
-      {...props}
     >
       <motion.div
         className="absolute -inset-1 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-600 blur-2xl pointer-events-none"
@@ -44,11 +45,10 @@ export function GlowButton({
           hover: {
             opacity: [0.4, 0.8, 0.4],
             scale: [1, 1.05, 1],
-            transition: { duration: 2, repeat: Infinity, ease: "circInOut" }
+            transition: { duration: 2, repeat: Infinity, ease: "circInOut" as const }
           }
         }}
       />
-
       <div className="absolute inset-0 rounded-xl bg-background border border-primary/50 pointer-events-none" />
       <span className="relative z-10">{children}</span>
     </motion.button>
