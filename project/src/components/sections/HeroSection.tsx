@@ -3,6 +3,7 @@ import { motion, type Variants } from "framer-motion"
 import { ArrowRight, ArrowUpRight, Sparkles, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useAuth } from "@/contexts/AuthContext"
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -18,6 +19,7 @@ const item: Variants = {
 }
 
 export function HeroSection() {
+  const { user } = useAuth()
   return (
     <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden pt-16">
       {/* Local depth layer — adds an extra bottom-edge gradient fade unique to hero */}
@@ -73,18 +75,20 @@ export function HeroSection() {
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
               </Link>
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="group relative overflow-hidden h-11 px-6 text-base rounded-xl hover:bg-muted hover:border-foreground/30 transition-colors gap-2"
-              asChild
-            >
-              <Link to="/signup">
-                <span className="text-[13px] opacity-70">✦</span>
-                Get started free
-                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-foreground/10 to-transparent group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
-              </Link>
-            </Button>
+            {!user && (
+              <Button
+                variant="outline"
+                size="lg"
+                className="group relative overflow-hidden h-11 px-6 text-base rounded-xl hover:bg-muted hover:border-foreground/30 transition-colors gap-2"
+                asChild
+              >
+                <Link to="/signup">
+                  <span className="text-[13px] opacity-70">✦</span>
+                  Get started free
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-foreground/10 to-transparent group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
+                </Link>
+              </Button>
+            )}
           </motion.div>
 
           <motion.div

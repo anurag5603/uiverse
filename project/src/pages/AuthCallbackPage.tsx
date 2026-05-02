@@ -28,7 +28,7 @@ export function AuthCallbackPage() {
           navigate("/login?error=" + encodeURIComponent(exchangeError.message))
           return
         }
-        const next = url.searchParams.get("next") ?? "/dashboard"
+        const next = url.searchParams.get("next") ?? "/"
         navigate(next, { replace: true })
         return
       }
@@ -48,14 +48,14 @@ export function AuthCallbackPage() {
           navigate("/login?error=" + encodeURIComponent(sessionError.message))
           return
         }
-        navigate("/dashboard", { replace: true })
+        navigate("/", { replace: true })
         return
       }
 
       // Fallback — let onAuthStateChange handle it
       const { data: { session } } = await supabase.auth.getSession()
       if (session) {
-        navigate("/dashboard", { replace: true })
+        navigate("/", { replace: true })
       } else {
         navigate("/login", { replace: true })
       }
