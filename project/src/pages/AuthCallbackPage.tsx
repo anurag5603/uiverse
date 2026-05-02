@@ -3,18 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 import { supabase } from "@/lib/supabase"
 
-/**
- * /auth/callback
- *
- * Supabase redirects here after a successful OAuth login (Google, GitHub, etc.).
- * The URL contains a `code` query param. We exchange it for a session via
- * supabase.auth.exchangeCodeForSession(), then redirect to /dashboard.
- *
- * Add this URL to your Supabase project:
- *   Authentication → URL Configuration → Redirect URLs
- *   → http://localhost:5173/auth/callback   (local dev)
- *   → https://yourdomain.com/auth/callback  (production)
- */
 export function AuthCallbackPage() {
   const navigate = useNavigate()
 
@@ -22,19 +10,55 @@ export function AuthCallbackPage() {
     const handleCallback = async () => {
       const url = new URL(window.location.href)
       const code = url.searchParams.get("code")
+      const error = url.searchParams.get("error")
+      const errorDescription = url.searchParams.get("error_description")
 
-      if (code) {
-        const { error } = await supabase.auth.exchangeCodeForSession(code)
-        if (error) {
-          console.error("OAuth callback error:", error.message)
-          navigate("/login?error=" + encodeURIComponent(error.message))
-          return
-        }
+      // Handle error from OAuth provider
+      if (error) {
+        console.error("OAuth error:", error, errorDescription)
+        navigate("/login?error=" + encodeURIComponent(errorDescription ?? error))
+        return
       }
 
-      // Redirect to dashboard on success (or /components if coming from a locked page)
-      const next = url.searchParams.get("next") ?? "/dashboard"
-      navigate(next, { replace: true })
+      // PKCE flow — exchange code for session
+      if (code) {
+        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+        if (exchangeError) {
+          console.error("Exchange error:", exchangeError.message)
+          navigate("/login?error=" + encodeURIComponent(exchangeError.message))
+          return
+        }
+        const next = url.searchParams.get("next") ?? "/dashboard"
+        navigate(next, { replace: true })
+        return
+      }
+
+      // Implicit flow — access_token in hash fragment
+      const hashParams = new URLSearchParams(window.location.hash.replace("#", ""))
+      const accessToken = hashParams.get("access_token")
+      const refreshToken = hashParams.get("refresh_token")
+
+      if (accessToken && refreshToken) {
+        const { error: sessionError } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        })
+        if (sessionError) {
+          console.error("Session error:", sessionError.message)
+          navigate("/login?error=" + encodeURIComponent(sessionError.message))
+          return
+        }
+        navigate("/dashboard", { replace: true })
+        return
+      }
+
+      // Fallback — let onAuthStateChange handle it
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        navigate("/dashboard", { replace: true })
+      } else {
+        navigate("/login", { replace: true })
+      }
     }
 
     handleCallback()
