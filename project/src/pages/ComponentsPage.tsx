@@ -9,6 +9,8 @@ import { Navbar } from "@/components/layout/Navbar"
 import { Footer } from "@/components/layout/Footer"
 import { showcaseComponents } from "@/data/components"
 import { ComponentPreview } from "@/components/showcase/ComponentPreview"
+import { useAuth } from "@/contexts/AuthContext"
+import { FREE_SLUGS } from "@/lib/freeComponents"
 import { cn } from "@/lib/utils"
 import type { ComponentCategory } from "@/types"
 
@@ -78,7 +80,7 @@ export function ComponentsPage() {
                 />
               </div>
               <div className="flex gap-2">
-                {(["all", "free", "pro"] as const).map((f) => (
+                {(["all", "free"] as const).map((f) => (
                   <Button
                     key={f}
                     variant={filter === f ? "default" : "outline"}
@@ -86,7 +88,7 @@ export function ComponentsPage() {
                     onClick={() => setFilter(f)}
                     className="h-11 rounded-xl capitalize"
                   >
-                    {f === "all" ? "All" : f === "free" ? "Free" : "Pro"}
+                    {f === "all" ? "All" : "Free"}
                   </Button>
                 ))}
               </div>
@@ -147,7 +149,9 @@ export function ComponentsPage() {
 }
 
 function ComponentCard({ component }: { component: typeof showcaseComponents[0] }) {
-  const isLocked = component.tier === "pro"
+  const { user } = useAuth()
+  // Locked when: not in the free set AND user is not signed in
+  const isLocked = !FREE_SLUGS.has(component.slug) && !user
 
   return (
     <Link to={`/components/${component.slug}`}>
@@ -161,10 +165,10 @@ function ComponentCard({ component }: { component: typeof showcaseComponents[0] 
               <div className="opacity-30 pointer-events-none scale-75">
                 <ComponentPreview componentName={component.previewComponent} />
               </div>
-              <div className="absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-sm">
+              <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
                 <div className="text-center">
                   <Lock className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
-                  <Badge className="text-xs">Pro</Badge>
+                  <p className="text-xs text-muted-foreground font-medium">Sign in to unlock</p>
                 </div>
               </div>
             </>
@@ -179,12 +183,12 @@ function ComponentCard({ component }: { component: typeof showcaseComponents[0] 
         </div>
 
         <div className="p-5">
-          <div className="flex items-start justify-between gap-2 mb-2">
-            <h3 className="font-semibold text-sm group-hover:text-primary transition-colors">{component.name}</h3>
-            <Badge variant={isLocked ? "default" : "outline"} className="text-xs shrink-0">
-              {isLocked ? "Pro" : "Free"}
-            </Badge>
-          </div>
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <h3 className="font-semibold text-sm group-hover:text-primary transition-colors">{component.name}</h3>
+              <Badge variant={isLocked ? "default" : "outline"} className="text-xs shrink-0">
+                {isLocked ? "Login" : "Free"}
+              </Badge>
+            </div>
           <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{component.description}</p>
           <div className="flex items-center gap-3 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">

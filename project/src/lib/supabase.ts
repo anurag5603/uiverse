@@ -1,9 +1,16 @@
 import { createClient } from "@supabase/supabase-js"
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ?? ""
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY ?? ""
+// Supabase now uses PUBLISHABLE_KEY (replaces the old ANON_KEY)
+const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+  || import.meta.env.VITE_SUPABASE_ANON_KEY
+  || ""
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseKey)
+
+// The URL Supabase redirects to after OAuth login.
+// In production replace with your deployed domain.
+const OAUTH_REDIRECT = `${window.location.origin}/auth/callback`
 
 export async function signUpWithEmail(email: string, password: string, name: string) {
   const { data, error } = await supabase.auth.signUp({
@@ -20,7 +27,18 @@ export async function signInWithEmail(email: string, password: string) {
 }
 
 export async function signInWithGoogle() {
-  const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google" })
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: OAUTH_REDIRECT },
+  })
+  return { data, error }
+}
+
+export async function signInWithGitHub() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "github",
+    options: { redirectTo: OAUTH_REDIRECT },
+  })
   return { data, error }
 }
 

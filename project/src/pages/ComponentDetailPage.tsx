@@ -11,6 +11,7 @@ import { showcaseComponents } from "@/data/components"
 import { ComponentPreview } from "@/components/showcase/ComponentPreview"
 import { useAuth } from "@/contexts/AuthContext"
 import { useSavedComponents } from "@/hooks/useSavedComponents"
+import { FREE_SLUGS } from "@/lib/freeComponents"
 import {
   gradientButtonCode,
   glowButtonCode,
@@ -68,7 +69,8 @@ export function ComponentDetailPage() {
   const component = showcaseComponents.find((c) => c.slug === slug)
   if (!component) return <Navigate to="/components" />
 
-  const isLocked = component.tier === "pro" && !user
+  // Locked when not in the free set and not signed in
+  const isLocked = !FREE_SLUGS.has(component.slug) && !user
   const code = codeBySlug[component.slug] ?? "// Code coming soon..."
 
   const handleCopy = async () => {
@@ -101,9 +103,6 @@ export function ComponentDetailPage() {
                 <div className="flex items-center gap-3 mb-2">
                   <h1 className="text-3xl font-extrabold tracking-tight">{component.name}</h1>
                   {component.new && <Badge className="text-xs rounded-full">New</Badge>}
-                  <Badge variant={component.tier === "pro" ? "default" : "outline"} className="text-xs">
-                    {component.tier === "pro" ? "Pro" : "Free"}
-                  </Badge>
                 </div>
                 <p className="text-muted-foreground">{component.description}</p>
               </div>
@@ -145,18 +144,28 @@ export function ComponentDetailPage() {
                 </TabsList>
 
                 <TabsContent value="preview">
-                  <div className="relative mt-4 rounded-2xl border border-border bg-muted/20 min-h-[360px] flex items-center justify-center p-8">
+                  <div className="relative mt-4 rounded-2xl border border-border bg-muted/20 min-h-[360px] flex items-center justify-center p-8 overflow-hidden">
                     {isLocked ? (
-                      <div className="text-center">
-                        <Lock className="w-10 h-10 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="font-semibold mb-2">Pro Component</h3>
-                        <p className="text-sm text-muted-foreground mb-4 max-w-xs">
-                          Upgrade to Pro to access this component and 80+ more premium components.
-                        </p>
-                        <Button asChild className="rounded-xl">
-                          <Link to="/pricing">Unlock with Pro</Link>
-                        </Button>
-                      </div>
+                      <>
+                        <div className="opacity-20 pointer-events-none scale-75">
+                          <ComponentPreview componentName={component.previewComponent} />
+                        </div>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/60 backdrop-blur-sm gap-4">
+                          <Lock className="w-8 h-8 text-muted-foreground" />
+                          <div className="text-center">
+                            <p className="font-semibold mb-1">Sign in to view this component</p>
+                            <p className="text-sm text-muted-foreground mb-4">Create a free account to unlock all components.</p>
+                          </div>
+                          <div className="flex gap-3">
+                            <Button asChild variant="outline" size="sm" className="rounded-xl">
+                              <Link to="/login">Sign in</Link>
+                            </Button>
+                            <Button asChild size="sm" className="rounded-xl">
+                              <Link to="/signup">Create account</Link>
+                            </Button>
+                          </div>
+                        </div>
+                      </>
                     ) : (
                       <ComponentPreview componentName={component.previewComponent} />
                     )}
@@ -166,12 +175,18 @@ export function ComponentDetailPage() {
                 <TabsContent value="code">
                   <div className="relative mt-4 rounded-2xl border border-border bg-card overflow-hidden">
                     {isLocked && (
-                      <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-2xl">
+                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm rounded-2xl gap-3">
+                        <Lock className="w-7 h-7 text-muted-foreground" />
                         <div className="text-center">
-                          <Lock className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
-                          <h3 className="font-semibold mb-2">Unlock Source Code</h3>
+                          <p className="font-semibold mb-1">Sign in to view source code</p>
+                          <p className="text-sm text-muted-foreground mb-4">Free for all registered users.</p>
+                        </div>
+                        <div className="flex gap-3">
+                          <Button asChild variant="outline" size="sm" className="rounded-xl">
+                            <Link to="/login">Sign in</Link>
+                          </Button>
                           <Button asChild size="sm" className="rounded-xl">
-                            <Link to="/pricing">Upgrade to Pro</Link>
+                            <Link to="/signup">Create account</Link>
                           </Button>
                         </div>
                       </div>
@@ -199,7 +214,7 @@ export function ComponentDetailPage() {
                       </Button>
                     </div>
                     <pre className="p-6 text-sm font-mono overflow-x-auto max-h-96 text-muted-foreground leading-relaxed">
-                      <code>{isLocked ? code.split("\n").slice(0, 8).join("\n") + "\n\n// ...' (unlock to see full code)" : code}</code>
+                      <code>{isLocked ? "// Sign in to view source code" : code}</code>
                     </pre>
                   </div>
                 </TabsContent>
@@ -229,14 +244,6 @@ export function ComponentDetailPage() {
                     <dd className="font-medium capitalize">{component.category.replace("-", " ")}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-muted-foreground">Tier</dt>
-                    <dd>
-                      <Badge variant={component.tier === "pro" ? "default" : "outline"} className="text-xs">
-                        {component.tier}
-                      </Badge>
-                    </dd>
-                  </div>
-                  <div className="flex justify-between">
                     <dt className="text-muted-foreground">Downloads</dt>
                     <dd className="font-medium">{component.downloads?.toLocaleString()}</dd>
                   </div>
@@ -256,13 +263,19 @@ export function ComponentDetailPage() {
 
               {isLocked && (
                 <div className="rounded-2xl border border-border bg-gradient-to-br from-primary/5 to-transparent p-6 text-center">
-                  <h3 className="font-semibold mb-2">Unlock Pro Components</h3>
+                  <Lock className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
+                  <h3 className="font-semibold mb-1">Unlock All Components</h3>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Get access to all 80+ premium components with a Pro plan.
+                    Sign in for free to access all components and their source code.
                   </p>
-                  <Button asChild className="w-full rounded-xl">
-                    <Link to="/pricing">View Pricing Plans</Link>
-                  </Button>
+                  <div className="flex flex-col gap-2">
+                    <Button asChild className="w-full rounded-xl">
+                      <Link to="/signup">Create free account</Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full rounded-xl">
+                      <Link to="/login">Sign in</Link>
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>

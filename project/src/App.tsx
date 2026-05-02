@@ -6,9 +6,9 @@ import { SignupPage } from "@/pages/SignupPage"
 import { ComponentsPage } from "@/pages/ComponentsPage"
 import { ComponentDetailPage } from "@/pages/ComponentDetailPage"
 import { DashboardPage } from "@/pages/DashboardPage"
-import { PricingPage } from "@/pages/PricingPage"
 import { ForgotPasswordPage } from "@/pages/ForgotPasswordPage"
 import { ComingSoonPage } from "@/pages/ComingSoonPage"
+import { AuthCallbackPage } from "@/pages/AuthCallbackPage"
 
 const pageVariants = {
   initial: { opacity: 0, y: 12 },
@@ -39,7 +39,7 @@ export function App() {
         <Route path="/components"         element={<P><ComponentsPage /></P>} />
         <Route path="/components/:slug"   element={<P><ComponentDetailPage /></P>} />
         <Route path="/dashboard"          element={<P><DashboardPage /></P>} />
-        <Route path="/pricing"            element={<P><PricingPage /></P>} />
+        <Route path="/auth/callback"      element={<AuthCallbackPage />} />
 
         {/* Navbar stub routes */}
         <Route path="/docs"               element={<P><ComingSoonPage /></P>} />

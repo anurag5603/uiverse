@@ -9,9 +9,7 @@ import {
   LogOut,
   Zap,
   Package,
-  Star,
   ArrowRight,
-  Crown,
   Download,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -57,8 +55,7 @@ export function DashboardPage() {
   const stats = [
     { label: "Components Saved", value: savedComponents.length, icon: Bookmark, delta: savedComponents.length === 0 ? "None saved yet" : `${savedComponents.length} component${savedComponents.length === 1 ? "" : "s"}` },
     { label: "Free Components", value: savedComponents.filter(c => c.tier === "free").length, icon: Download, delta: "in your library" },
-    { label: "Pro Components", value: savedComponents.filter(c => c.tier === "pro").length, icon: Package, delta: "unlocked items" },
-    { label: "Plan", value: "Free", icon: Crown, delta: "Upgrade to Pro" },
+    { label: "Total Components", value: savedComponents.length, icon: Package, delta: "saved items" },
   ]
 
   return (
@@ -118,12 +115,6 @@ export function DashboardPage() {
           <h1 className="font-semibold capitalize">{activeTab}</h1>
           <div className="flex items-center gap-3">
             <ModeToggle />
-            <Button size="sm" asChild className="rounded-xl gap-1.5">
-              <Link to="/pricing">
-                <Crown className="w-3.5 h-3.5" />
-                Upgrade to Pro
-              </Link>
-            </Button>
           </div>
         </div>
 
@@ -217,25 +208,6 @@ function OverviewTab({
         )}
       </div>
 
-      <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-6 backdrop-blur-sm">
-        <div className="flex items-start gap-4">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-            <Crown className="w-5 h-5 text-primary" />
-          </div>
-          <div className="flex-1">
-            <h3 className="font-semibold mb-1">Unlock Pro Components</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Get access to 80+ premium components, unlimited saves, and priority support.
-            </p>
-            <Button asChild size="sm" className="rounded-xl gap-1.5">
-              <Link to="/pricing">
-                <Star className="w-3.5 h-3.5" />
-                View Pro Plans
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
@@ -287,30 +259,6 @@ function SavedTab({ savedComponents }: { savedComponents: typeof showcaseCompone
 function BillingTab() {
   return (
     <div className="max-w-2xl space-y-6">
-      <div className="p-6 rounded-2xl border border-border bg-card">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold">Current Plan</h3>
-          <Badge variant="outline">Free</Badge>
-        </div>
-        <p className="text-sm text-muted-foreground mb-6">
-          You're on the free plan. Upgrade to Pro to unlock all premium components.
-        </p>
-        <div className="space-y-3 mb-6">
-          {["20 free components", "Basic documentation", "Community support"].map((f) => (
-            <div key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              {f}
-            </div>
-          ))}
-        </div>
-        <Button asChild className="rounded-xl gap-1.5">
-          <Link to="/pricing">
-            <Crown className="w-4 h-4" />
-            Upgrade to Pro — $19/mo
-          </Link>
-        </Button>
-      </div>
-
       <div className="p-6 rounded-2xl border border-border bg-card">
         <h3 className="font-semibold mb-4">Billing History</h3>
         <div className="text-center py-8">
